@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, 
+    maximum-scale=1.0, minimum-scale=1.0" />
+        
+        <title>Application index</title>
+        <link rel="stylesheet" type="text/css" href="C:\Users\KS\OneDrive\Desktop\Golang_Assignment\templates\style.css">
+    </head>
+    <body>
+    
+        <h1 class="form-heading">{{.First}} {{.Last}} {{.DateofBirth}} {{.Phone}} {{.Email}} {{.CV}} </h1>
+    
+    </body>
+</html>
+
+
+
+
+firstName := r.FormValue("first")
+	lastName := r.FormValue("last")
+	dateofbirth := r.FormValue("dob")
+	phonenumber := r.FormValue("phone")
+	emailid := r.FormValue("email")
+	cvuplode := r.FormFile("cv")
