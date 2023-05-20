@@ -8,13 +8,13 @@ import (
 
 import "github.com/gofiber/fiber/v2"
 
-// import (
-// 	"context"
-// 	"fmt"
-// 	"log"
-
-// 	"github.com/edgedb/edgedb-go"
-// )
+import (
+	"context"
+	"log"
+	"time"
+	
+	"github.com/edgedb/edgedb-go"
+)
 
 var tpl *template.Template
 
@@ -29,6 +29,16 @@ func init() {
 // }
 
 
+type Resume struct {
+    ID   edgedb.UUID `edgedb:"id"`
+    fname string      `edgedb:"fname"`
+    lname string      `edgedb:"lname"`
+    phone string      `edgedb:"phone"`
+    email string      `edgedb:"email"`
+    DOB  time.Time   `edgedb:"dob"`
+}
+
+
 func main() {
     app := fiber.New()
 
@@ -37,6 +47,29 @@ func main() {
     // })
 	
 	// DB
+
+	opts := edgedb.Options{Concurrency: 4}
+    ctx := context.Background()
+    db, err := edgedb.CreateClientDSN(ctx, "edgedb://edgedb@localhost/test", opts)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer db.Close()
+
+    // create a user object type.
+    err = db.Execute(ctx, `
+        CREATE TYPE Resume {
+            CREATE REQUIRED PROPERTY fname -> str;
+            CREATE REQUIRED PROPERTY lname -> str;
+            CREATE REQUIRED PROPERTY phone -> str;
+            CREATE REQUIRED PROPERTY email -> str;
+            CREATE PROPERTY dob -> datetime;
+        }
+    `)
+    if err != nil {
+        log.Fatal(err)
+    }
+
 
 	// ctx := context.Background()
     // client, err := edgedb.CreateClient(ctx, edgedb.Options{})
@@ -74,6 +107,22 @@ func main() {
 		fmt.Printf("%s\n",email)
 		fmt.Printf("%s\n",file)
 		fmt.Printf("%s\n",err)
+
+		var inserted struct{ id edgedb.UUID }
+		err = db.QuerySingle(ctx, `
+			INSERT Resume {
+				fname := <str>$0,
+				lname := <str>$1,
+				phone := <str>$2,
+				email := <str>$3,
+				dob := <datetime>$4
+			}
+		`, &inserted, fname,last,Phone,email,dob)
+		//  time.Date(1984, 3, 1, 0, 0, 0, 0, time.UTC)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		return c.SendString("I'm a POST request!")
 	})
 
