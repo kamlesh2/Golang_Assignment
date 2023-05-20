@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, 
+    maximum-scale=1.0, minimum-scale=1.0" />
+        
+        <title>Application index</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <h1 class="form-heading">Registration Form</h1>
+    <form action="/form/submit" method="post" class="application-form" enctype="multipart/form-data">
+        <!-- <p class="helper-text">* denotes a required field</p> -->
+        
+        <div class="field-row">
+            <label class="form-label" for="firstName">First name</label>
+            <input type="text" id="firstName" name="first" class="field text-field first-name-field" required>
+            <span class="message"></span>
+        </div>
+        
+        
+        <div class="field-row">
+            <label class="form-label cf" for="lastName">Last name</label>
+            <input type="text" id="lastName" name="last" class="field text-field last-name-field" required>
+            <span class="message"></span>
+        </div>
+        
+        <div class="field-row">
+            <label class="form-label" for="dateOfBirth">Date of birth</label>
+            <input type="date" id="dateOfBirth" name="dob" class="field date-field dob-field" min="1960-01-01" max="2005-12-31"  required>
+            <span class="message"></span>
+        </div>
+        
+        <div class="field-row">
+            <label class="form-label" for="tel">Phone No.</label>
+            <input type="tel" id="tel" name="Phone" class="field text-field tel-field" required>
+            <span class="message"></span>
+        </div>
+        
+        <div class="field-row">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" name="email" class="field text-field email-field" required>
+            <span class="message"></span>
+        </div>
+        
+        <div class="field-row">
+            <label class="form-label" for="C.V">Upload C.V</label>
+            <div class="app__uploads">
+
+                <div class='upload__wrapper'>
+                    
+                    <label for="cv" class="app__upload-label">
+                        <i class="fa fa-upload"></i>C.V.
+                      </label>
+                  <input type="file" name="cv" accept=".doc, .docx, .pdf" id="cv" class="app__hidden-upload" required>
+    
+                </div>
+                    
+            </div>
+            <div class="container">
+                <div>
+                  <button class="log">Login</button>
+                  <button class="reg">Register</button>
+                </div>
+            </div>
+            <span class="message"></span>
+        </div>
+        
+        
+    </form> 
+    </body>
+</html>
+
+
+
+
+
+
+<!-- 
+<div class="background">
+
+    <form class='app__form'>
+      <header>
+        <h1 class='app__heading'>Apply Online</h1>
+      </header>
+      
+      <label for="full_name" class='app__label'>
+        Full Name
+      </label>
+      <input type="text" name='full_name' class='app_input-text' required/>
+      
+      <label for="phone_number" class='app__label'>
+        Phone Number
+      </label>
+      <input type="tel" 
+             pattern='^\d{11,13}$' 
+             name='phone_number' 
+             title='(Numbers only, inc. area code)'
+             class='app_input-text' 
+             required/>
+      
+      <label for="Email" class='app__label'>
+        Email
+      </label>
+      <input type="email" 
+             name='Email'
+             class='app_input-text' 
+             required />
+      
+      <label for="message" class='app__label'>
+        Message<sup>(Optional)</sup>
+      </label>
+      <textarea name='full_name' class='app_input-textarea'> </textarea>
+      
+      <div class="app__base64__fields is-hidden">
+        <textarea name='full_name' class='js-cover-letter__textarea'> </textarea>
+        <textarea name='full_name' class='js-cv__textarea'> </textarea>
+      </div>
+      
+      <div class="app__uploads">
+        <div class='upload__wrapper'>
+          <input type="file" accept=".doc, .docx, .pdf" id="cover-letter" class="app__hidden-upload" required>
+  
+          <label for="cover-letter" class="app__upload-label">
+            <i class="fa fa-upload"></i>Cover letter
+          </label>
+        </div>
+      
+        <div class='upload__wrapper'>
+          <input type="file" accept=".doc, .docx, .pdf" id="cv" class="app__hidden-upload" required>
+  
+          <label for="cv" class="app__upload-label">
+            <i class="fa fa-upload"></i>C.V.
+          </label>
+        </div>
+      </div>
+      
+      <button class='app__submit'>Submit</button>
+      
+      
+    </form>
+    
+  </div> -->
