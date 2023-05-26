@@ -1,18 +1,15 @@
 package main
 
 import (
-	"html/template"
-	"net/http"
-	"fmt"
-)
-
-import "github.com/gofiber/fiber/v2"
-
-import (
 	"context"
+	"fmt"
+	"html/template"
+	"io"
 	"log"
+	"net/http"
+	"os"
 	"time"
-	
+
 	"github.com/edgedb/edgedb-go"
 )
 
@@ -22,111 +19,22 @@ func init() {
 	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
 }
 
-// func main() {
-// 	http.HandleFunc("/", index)
-// 	http.HandleFunc("/process", processor)
-// 	http.ListenAndServe(":8080", nil)
-// }
-
-
 type Resume struct {
-    ID   edgedb.UUID `edgedb:"id"`
-    fname string      `edgedb:"fname"`
-    lname string      `edgedb:"lname"`
-    phone string      `edgedb:"phone"`
-    email string      `edgedb:"email"`
-    DOB  time.Time   `edgedb:"dob"`
+	edgedb.Optional
+	fname string    `edgedb:"fname"`
+	lname string    `edgedb:"lname"`
+	phone string    `edgedb:"phone"`
+	email string    `edgedb:"email"`
+	dob   time.Time `edgedb:"dob"`
+	file  time.Time `edgedb:"file"`
 }
 
-
 func main() {
-    app := fiber.New()
-
-    // app.Get("/", func(c *fiber.Ctx) error {
-    //     return c.SendString("Hello, World 👋!")
-    // })
-	
-	// DB
-
-	opts := edgedb.Options{Concurrency: 4}
-    ctx := context.Background()
-    db, err := edgedb.CreateClientDSN(ctx, "edgedb://edgedb@localhost/test", opts)
-    if err != nil {
-        log.Fatal(err)
-    }
-    defer db.Close()
-
-    // create a user object type.
-    err = db.Execute(ctx, `
-        CREATE TYPE Resume {
-            CREATE REQUIRED PROPERTY fname -> str;
-            CREATE REQUIRED PROPERTY lname -> str;
-            CREATE REQUIRED PROPERTY phone -> str;
-            CREATE REQUIRED PROPERTY email -> str;
-            CREATE PROPERTY dob -> datetime;
-        }
-    `)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-
-	// ctx := context.Background()
-    // client, err := edgedb.CreateClient(ctx, edgedb.Options{})
-    // if err != nil {
-    //     log.Fatal(err)
-    // }
-    // defer client.Close()
-
-    // var (
-    //     users []struct {
-    //         ID   edgedb.UUID `edgedb:"id"`
-    //         FName string      `edgedb:"fname"`
-    //         LName string      `edgedb:"lname"`
-    //     }
-    // )
-
-    // query := "SELECT User{name} FILTER .age = <int64>$0"
-    // err = client.Query(ctx, query, &users, age)
-
-	// DB
-
-	app.Static("/", "./public") 
-	
-	app.Post("/form/submit", func(c *fiber.Ctx) error {
-		fname := c.FormValue("first")
-		last := c.FormValue("last")
-		dob := c.FormValue("dob")
-		Phone := c.FormValue("Phone")
-		email := c.FormValue("email")
-		file, err := c.FormFile("cv")
-		fmt.Printf("%s\n",fname)
-		fmt.Printf("%s\n",last)
-		fmt.Printf("%s\n",dob)
-		fmt.Printf("%s\n",Phone)
-		fmt.Printf("%s\n",email)
-		fmt.Printf("%s\n",file)
-		fmt.Printf("%s\n",err)
-
-		var inserted struct{ id edgedb.UUID }
-		err = db.QuerySingle(ctx, `
-			INSERT Resume {
-				fname := <str>$0,
-				lname := <str>$1,
-				phone := <str>$2,
-				email := <str>$3,
-				dob := <datetime>$4
-			}
-		`, &inserted, fname,last,Phone,email,dob)
-		//  time.Date(1984, 3, 1, 0, 0, 0, 0, time.UTC)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		return c.SendString("I'm a POST request!")
-	})
-
-    app.Listen(":3000")
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static", fs))
+	http.HandleFunc("/", index)
+	http.HandleFunc("/process", processor)
+	http.ListenAndServe(":8080", nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -134,36 +42,86 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func processor(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
-		return
+	ctx := context.Background()
+	client, err := edgedb.CreateClient(ctx, edgedb.Options{})
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer client.Close()
+
+	fname := r.FormValue("first")
+	last := r.FormValue("last")
+	dob := r.FormValue("dob")
+	phone := r.FormValue("phone")
+	email := r.FormValue("email")
+	file, handler, err := r.FormFile("cv")
+	file_str := ""
+	if err != nil {
+		log.Fatal(err)
+		file := false
+		fmt.Printf("%s\n", file)
+	} else {
+		defer file.Close()
+		fmt.Fprintf(w, "%v", handler.Header)
+		fmt.Print("---------------------------------------------------------------------\n")
+		// resp_body, err := ioutil.ReadAll(file)
+		// fmt.Printf("%s\n", err)
+		// file_str := string(resp_body)
+		// fmt.Printf("%s\n", file_str)
+		fmt.Print("---------------------------------------------------------------------\n")
+		f, err := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer f.Close()
+		io.Copy(f, file)
+	}
+
+	fmt.Printf("%s\n", file)
+	fmt.Printf("%s\n", err)
+
+	var inserted struct{ id edgedb.UUID }
+	err = client.QuerySingle(ctx, `
+	INSERT Resume {
+		fname := <str>$0,
+		lname := <str>$1,
+		phone := <str>$2,
+		email := <str>$3,
+		dob := <str>$4,
+		file := <str>$5,
+	}
+	`, &inserted, fname, last, phone, email, dob, file_str)
+
+	var resume []Resume
+	args := map[string]interface{}{"fname": fname}
+	query := "SELECT Resume {fname} FILTER .fname = <str>$fname"
+	err = client.Query(ctx, query, &resume, args)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(resume)
+
+	// Mail
+	// from := "from@gmail.com"
+	// password := "<Email Password>"
+	// to := []string{
+	// 	"sender@example.com",
+	// }
+	// smtpHost := "smtp.gmail.com"
+	// smtpPort := "587"
+	// message := []byte("This is a test email message.")
+	// auth := smtp.PlainAuth("", from, password, smtpHost)
+	// err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, message)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+	// fmt.Println("Email Sent Successfully!")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return
 }
-
-// 	firstName := r.FormValue("first")
-// 	lastName := r.FormValue("last")
-// 	dateofbirth := r.FormValue("dob")
-// 	phonenumber := r.FormValue("phone")
-// 	emailid := r.FormValue("email")
-// 	cvuplode := r.FormFile("cv")
-
-// d := struct {
-// 	FirstName string
-// 	LastName  string
-// 	Dateofbirth string
-// 	Phonenumber string
-// 	Emailid string
-// 	Cv multipart.File
-// }
-// {
-// 	First: firstName,
-// 	Last: lastName,
-// 	Dateofbirth: dateofbirth,
-// 	Phonenumber: phonenumber,
-// 	Emailid: emailid,
-// 	Cv: cvuplode,
-// }
-
-// tpl.ExecuteTemplate(w, "processer.gohtml")
-
-// }
