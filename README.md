@@ -23,13 +23,8 @@
 ![Go_21](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/2d1a99f7-1ed5-48aa-8b98-f8612806ca0a)
 ![Go_22](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/0236ad8b-d472-4b0b-9d45-0b7abddc848a)
 ![Go_23](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/fe59d68d-75a8-4cb2-a509-61fdd9c3fdeb)
-
-
-
-
-
-
-
-
+![Go_24](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/f34ad0e8-3bc8-4d57-aca1-4b6c07c693fe)
+![Go_25](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/6e8da508-4ea8-4d67-b3be-3f8347f7e02c)
+![Go_26](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/6e069c1b-72aa-457f-94ae-b022d648c0db)
 
 
