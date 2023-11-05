@@ -1,5 +1,4 @@
-![Go_20](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/3e33939a-0cc5-41e7-9f53-1b3eb843676d)# Golang_Assignment
-The application which shows a simple registration / sign-in form
+#The application which shows a simple registration / sign-in form
 
 ![Go_1](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/aa30c308-eb7f-480c-b878-f2c51be9a899)
 ![Go_2](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/d9db0b9a-b64b-4a4d-b5c8-cc752acf5309)
