@@ -1,6 +1,7 @@
 # The application which shows a simple registration / sign-in form
 
 ![Go_1](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/aa30c308-eb7f-480c-b878-f2c51be9a899)
+
 ![Go_2](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/d9db0b9a-b64b-4a4d-b5c8-cc752acf5309)
 ![Go_3](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/f68db985-f312-4bff-abf5-1bc41f5b9555)
 ![Go_4](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/b52a8fe0-e14a-442f-8119-5081f4798344)
@@ -26,11 +27,20 @@
 ![Go_24](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/f34ad0e8-3bc8-4d57-aca1-4b6c07c693fe)
 ![Go_25](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/6e8da508-4ea8-4d67-b3be-3f8347f7e02c)
 ![Go_26](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/6e069c1b-72aa-457f-94ae-b022d648c0db)
+![Go_27](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/77ccbc7f-b543-46c6-8313-00bf24ec5919)
+![Go_28](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/78497057-ac4f-4749-a85f-fe34c4a97cd6)
+![Go_29](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/f18536d8-cd28-4e48-9b10-9c9acacc6e57)
+![Go_30](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/4ea7eb2c-7325-4a1f-a6cd-9017262d762d)
+![Go_31](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/220d6333-198f-4eda-a65c-55a1e1af1fe0)
+![Go_32](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/2b052a7a-3978-47cd-ac83-8a85681142ab)
 
+![Go_33](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/7ae62939-4158-48b2-b486-a3c5a2e8d604)
 
+![Go_34](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/2d8e87e6-2522-4e5e-bc2f-c010aa214921)
 
+![Go_35](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/3b93e6a5-ee18-4ecb-bae7-47dad9d335d4)
 
-
+![Go_36](https://github.com/kamlesh2/Golang_Assignment/assets/47275110/ad324a58-483a-4880-a254-fbc9fe618cc0)
 
 
 
